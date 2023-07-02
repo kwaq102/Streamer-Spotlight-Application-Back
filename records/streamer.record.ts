@@ -10,8 +10,6 @@ export class StreamerRecord {
     downvotes: number;
 
     constructor(streamerObj: StreamerRecord) {
-        // TODO zzrobić walidację
-
         this._id = streamerObj._id;
         this.name = streamerObj.name;
         this.platform = streamerObj.platform;
@@ -55,5 +53,3 @@ export class StreamerRecord {
         })
     }
 }
-
-// TODO zastanowić się czy to rzutowanie ma sens w przypadku TS

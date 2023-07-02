@@ -8,15 +8,8 @@ export const streamersRouter = Router()
     })
 
     .post('/', async (req, res) => {
-
-        // DANE Z BODY
-
-
         const newStreamer = new StreamerRecord(req.body);
-
         await newStreamer.insert();
-
-        res.send('Dodawanie nowego stremera');
     })
 
     .get('/:streamerId', async (req, res) => {
@@ -38,9 +31,6 @@ export const streamersRouter = Router()
     })
 
     .put('/:streamerId/vote', async (req, res) => {
-
-        console.log(req.body)
-
         const streamer = await StreamerRecord.find(req.params.streamerId);
 
         streamer.upvotes = req.body.upvotes;
