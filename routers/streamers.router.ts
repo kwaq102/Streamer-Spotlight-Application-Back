@@ -1,13 +1,17 @@
 import { Router } from "express";
 import { StreamerRecord } from "../records/streamer.record";
 
-
 export const streamersRouter = Router()
     .get('/', async (req, res) => {
-        res.json(await StreamerRecord.findAll())
+        const allStreamers = await StreamerRecord.findAll();
+        res.json(allStreamers);
     })
 
     .post('/', async (req, res) => {
+
+        // DANE Z BODY
+
+
         const newStreamer = new StreamerRecord(req.body);
 
         await newStreamer.insert();
@@ -35,12 +39,14 @@ export const streamersRouter = Router()
 
     .put('/:streamerId/vote', async (req, res) => {
 
+        console.log(req.body)
+
         const streamer = await StreamerRecord.find(req.params.streamerId);
 
-        streamer.upvotes = streamer.upvotes + 1;
-        streamer.downvotes = streamer.downvotes - 200;
+        streamer.upvotes = req.body.upvotes;
+        streamer.downvotes = req.body.downvotes;
 
-        await StreamerRecord.update(streamer);
+        await streamer.update();
 
         res.json(streamer)
     })

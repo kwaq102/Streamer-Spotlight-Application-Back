@@ -1,5 +1,5 @@
 export interface StreamerEntity {
-    id: string;
+    _id: string;
     name: string;
     platform: string;
     description: string;

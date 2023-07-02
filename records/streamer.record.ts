@@ -21,7 +21,14 @@ export class StreamerRecord {
     }
 
     async insert(): Promise<void> {
-        await streamers.insertOne(StreamerRecord)
+        await streamers.insertOne({
+            _id: this._id,
+            name: String(this.name),
+            platform: String(this.platform),
+            description: (this.description),
+            upvotes: Number(this.upvotes),
+            downvotes: Number(this.downvotes)
+        })
     }
 
     static async find(id: string): Promise<StreamerRecord | null> {
@@ -31,16 +38,22 @@ export class StreamerRecord {
         return singleStreamer === null ? null : new StreamerRecord(singleStreamer);
     }
 
-    static async findAll() {
-        return (await streamers.find()).toArray();
+    static async findAll(): Promise<StreamerRecord[]> {
+        return (await ((await streamers.find()).toArray())).map((obj: StreamerRecord) => new StreamerRecord(obj));
     }
 
-    static async update(streamer: StreamerRecord): Promise<void> {
-        //TODO może jakaś walidacja?
-
+    async update(): Promise<void> {
         await streamers.replaceOne({
-            _id: streamer._id,
-        }, streamer)
+            _id: this._id,
+        }, {
+            _id: this._id,
+            name: String(this.name),
+            platform: String(this.platform),
+            description: (this.description),
+            upvotes: Number(this.upvotes),
+            downvotes: Number(this.downvotes)
+        })
     }
-
 }
+
+// TODO zastanowić się czy to rzutowanie ma sens w przypadku TS
