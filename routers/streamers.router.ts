@@ -22,6 +22,7 @@ export const streamersRouter = Router()
 
             if (!singleStreamer) {
                 res.send('Streamer does not exist.')
+                return;
             }
 
             res.json(singleStreamer)

@@ -1,5 +1,6 @@
 import { streamers } from "../utils/db";
 import { ObjectId } from "mongodb";
+import { ValidationError } from "../utils/errors";
 
 export class StreamerRecord {
     _id: ObjectId;
@@ -10,6 +11,19 @@ export class StreamerRecord {
     downvotes: number;
 
     constructor(streamerObj: StreamerRecord) {
+
+        if (!streamerObj.name || streamerObj.name.length < 3 || streamerObj.name.length > 50) {
+            throw new ValidationError('The streamer name is wrong. Name should be consist between 3 and 50 characters');
+        }
+
+        if (!streamerObj.description || streamerObj.description.length < 5 || streamerObj.description.length > 5000) {
+            throw new ValidationError('Description is incorrect. Description length should be between 5 and 50 characters.')
+        }
+
+        if (!streamerObj.platform) {
+            throw new ValidationError('The platform was not selected.')
+        }
+
         this._id = streamerObj._id;
         this.name = streamerObj.name;
         this.platform = streamerObj.platform;
