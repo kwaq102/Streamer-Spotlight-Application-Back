@@ -10,6 +10,7 @@ export const streamersRouter = Router()
     .post('/', async (req, res) => {
         const newStreamer = new StreamerRecord(req.body);
         await newStreamer.insert();
+        res.end();
     })
 
     .get('/:streamerId', async (req, res) => {
